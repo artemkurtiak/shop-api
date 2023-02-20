@@ -1,5 +1,5 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestApplication, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import cookieParser from 'cookie-parser';
@@ -21,6 +21,6 @@ import { AppModule } from './app.module';
   SwaggerModule.setup(`${Environment.API_PREFIX}/docs`, app, swaggerDocument);
 
   await app.listen(Environment.PORT, () => {
-    Logger.log(`Api started on port ${Environment.PORT}`);
+    Logger.log(`Api started on port ${Environment.PORT}`, NestApplication.name);
   });
 })();
