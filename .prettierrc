@@ -1,0 +1,26 @@
+{
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "bracketSpacing": true,
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "printWidth": 100,
+  "trailingComma": "all",
+  "importOrder": [
+    "^(.*)nestjs(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^(.*)variables(.*)$",
+    "^(.*)\\.modules|\\.module(.*)$",
+    "^(.*)\\.controller(.*)$",
+    "^(.*)\\.service(.*)$",
+    "^(.*)entity(.*)$",
+    "^(.*)guard(.*)$",
+    "^(.*)decorator(.*)$",
+    "^(.*)schema(.*)$",
+    "^(.*)constant(.*)$",
+    "^(.*)dto(.*)$",
+    "^./[^s]",
+    "^[./]"
+  ],
+  "importOrderParserPlugins": ["typescript", "decorators-legacy"]
+}
