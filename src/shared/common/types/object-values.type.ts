@@ -1,1 +1,1 @@
-export type ObjectValuesType<T extends {}> = T[keyof T];
+export type ObjectValuesType<T extends object> = T[keyof T];

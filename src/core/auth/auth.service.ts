@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
+import { compare } from 'bcrypt';
 import { Repository } from 'typeorm';
 
 import { Environment } from '@shared/variables/environment';
@@ -55,7 +56,9 @@ export class AuthService {
       status: 'ACTIVE',
     });
 
-    await this.userService.compareUserPassword(body.password, userEntity.id);
+    const isPasswordMatched = await compare(body.password, userEntity.password);
+
+    if (!isPasswordMatched) throw new UnauthorizedException('Provided credentials are not valid');
 
     const tokenPayload: AuthenticationTokenPayload = { id: userEntity.id, role: userEntity.role };
 

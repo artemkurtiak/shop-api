@@ -1,8 +1,5 @@
-import { Logger } from '@nestjs/common';
-
 import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
-import { z } from 'zod';
 
 import { ValidationService } from '@shared/validation/validation.service';
 

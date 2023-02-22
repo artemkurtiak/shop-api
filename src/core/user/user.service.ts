@@ -1,12 +1,6 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { compare } from 'bcrypt';
 import { FindOptionsWhere, Repository } from 'typeorm';
 
 import { EmailActivationEntity } from './entities/email-activation.entity';
@@ -66,24 +60,12 @@ export class UserService {
     }
   }
 
-  // compare passed user password with password saved in db
-  async compareUserPassword(password: string, userId: number): Promise<void> {
-    const user = await this.userRepository
-      .createQueryBuilder('user')
-      .whereInIds([userId])
-      .addSelect('user.password')
-      .getOne();
-
-    const isPasswordMatched = await compare(password, user!.password);
-
-    if (!isPasswordMatched) {
-      throw new UnauthorizedException('Provided credentials are not valid');
-    }
-  }
-
   // activate user email
   async activateEmail(body: ActivateEmailBodyDto): Promise<void | never> {
-    const emailActivation = await this.checkEmailActivationExists({ token: body.token });
+    const emailActivation = await this.checkEmailActivationExists({
+      token: body.token,
+      status: 'PENDING',
+    });
 
     await this.emailActivationRepository.update(emailActivation.id, {
       status: 'ACCEPTED',
