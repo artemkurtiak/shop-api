@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiCreatedResponse, ApiNotFoundResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { UserService } from './user.service';
 
@@ -11,6 +11,9 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('/activate-email')
+  @ApiOperation({
+    summary: 'Activate user email',
+  })
   @ApiNotFoundResponse({
     description: 'Email activation with passed parameters not found',
   })

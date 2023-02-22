@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import {
   ApiConflictResponse,
   ApiCreatedResponse,
@@ -8,9 +8,16 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
+import { Response } from 'express';
+
 import { AuthService } from './auth.service';
 
 import { UserEntity } from '@core/user/entities/user.entity';
+
+import {
+  AccessTokenCookieOptions,
+  RefreshTokenCookieOptions,
+} from './constants/auth-cookies-options.constant';
 
 import { LoginBodyDto } from './dtos/body/login.body-dto';
 import { ResendEmailActivationBodyDto } from './dtos/body/resend-email-activation.body-dto';
@@ -49,13 +56,19 @@ export class AuthController {
     type: UserEntity,
     description: 'Successful login',
   })
-  async login(@Body() body: LoginBodyDto) {
+  async login(@Res({ passthrough: true }) response: Response, @Body() body: LoginBodyDto) {
     const { accessToken, refreshToken, user } = await this.authService.login(body);
+
+    response.cookie('accessToken', accessToken, AccessTokenCookieOptions);
+    response.cookie('refreshToken', refreshToken, RefreshTokenCookieOptions);
 
     return user;
   }
 
   @Post('resend-email-activation')
+  @ApiOperation({
+    summary: 'Resend user email activation',
+  })
   @ApiNotFoundResponse({
     description: 'User with passed parameters not found',
   })
