@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
-    "strictPropertyInitialization": false,
     "module": "commonjs",
     "strict": true,
+    "esModuleInterop": true,
+    "strictPropertyInitialization": false,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -15,7 +15,7 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,

@@ -1,27 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { ZodIssue } from 'zod';
-
 @Injectable()
 export class ValidationService {
   // validate data using zod schema
-  static validateWithZod<T>(
-    schema: Zod.Schema<T>,
-    data: unknown,
-    exitProcessOnError = true,
-  ): T | ZodIssue[] | never {
+  static validateWithZod<T>(schema: Zod.Schema<T>, data: unknown): T | void {
     const result = schema.safeParse(data);
 
-    if (result.success === false) {
+    if (!result.success) {
       result.error.errors.forEach((error) => {
         const [field] = error.path;
 
-        Logger.error(`${field}(${error.message})`, ValidationService.name);
+        Logger.error(`${field}(${error.message})`, 'test');
       });
 
-      if (exitProcessOnError) process.exit(0);
-
-      return result.error.errors;
+      process.exit(0);
     }
 
     return result.data;
