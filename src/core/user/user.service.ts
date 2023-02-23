@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 
 import { EmailActivationEntity } from './entities/email-activation.entity';
 import { UserEntity } from './entities/user.entity';
@@ -69,6 +69,18 @@ export class UserService {
 
     await this.emailActivationRepository.update(emailActivation.id, {
       status: 'ACCEPTED',
+    });
+  }
+
+  // get me
+  async getMe(userId: number) {
+    const relations: FindOptionsRelations<UserEntity> = {};
+
+    return this.userRepository.findOne({
+      relations,
+      where: {
+        id: userId,
+      },
     });
   }
 }

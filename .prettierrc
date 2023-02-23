@@ -16,6 +16,7 @@
     "^(.*)entity(.*)$",
     "^(.*)guard(.*)$",
     "^(.*)decorator(.*)$",
+    "^(.*)interceptor(.*)$",
     "^(.*)schema(.*)$",
     "^(.*)constant(.*)$",
     "^(.*)dto(.*)$",
