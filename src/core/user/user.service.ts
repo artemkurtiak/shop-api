@@ -73,7 +73,7 @@ export class UserService {
   }
 
   // get me
-  async getMe(userId: number) {
+  async getMe(userId: number): Promise<UserEntity | null> {
     const relations: FindOptionsRelations<UserEntity> = {};
 
     return this.userRepository.findOne({
