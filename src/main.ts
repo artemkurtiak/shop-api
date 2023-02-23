@@ -2,16 +2,22 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestApplication, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-import { ResponseInterceptor } from '@shared/common/interceptors/response.interceptor';
 import cookieParser from 'cookie-parser';
 
 import { Environment } from '@shared/variables/environment';
 
 import { AppModule } from './app.module';
 
+import { ResponseInterceptor } from '@shared/common/interceptors/response.interceptor';
+
 (async () => {
   const app = await NestFactory.create(AppModule);
-  const swagger = new DocumentBuilder().setTitle('Shop').setVersion('1.0').build();
+  const swagger = new DocumentBuilder()
+    .setTitle('Shop')
+    .addCookieAuth('accessToken')
+    .addCookieAuth('refreshToken')
+    .setVersion('1.0')
+    .build();
 
   app.use(cookieParser());
   app.setGlobalPrefix(Environment.API_PREFIX);

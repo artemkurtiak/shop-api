@@ -1,7 +1,12 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { UserService } from './user.service';
+
+import { UserEntity } from './entities/user.entity';
+
+import { User } from './decorators/user.decorator';
+import { Auth } from '@core/auth/decorators/auth.decorator';
 
 import { ActivateEmailBodyDto } from './dtos/body/activate-email.body-dto';
 
@@ -22,5 +27,18 @@ export class UserController {
   })
   activateEmail(@Body() body: ActivateEmailBodyDto) {
     return this.userService.activateEmail(body);
+  }
+
+  @Get('/me')
+  @Auth()
+  @ApiOperation({
+    summary: 'Get me',
+  })
+  @ApiCreatedResponse({
+    type: UserEntity,
+    description: 'Succesful user getting',
+  })
+  getMe(@User('id') userId: number) {
+    return this.userService.getMe(userId);
   }
 }
